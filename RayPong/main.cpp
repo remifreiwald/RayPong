@@ -18,12 +18,14 @@ public:
 	float height;
 	float speed;
 	Color color;
+	int keyUp;
+	int keyDown;
 
 	void Update(float deltaTime) {
-		if (IsKeyDown(KEY_UP)) {
+		if (IsKeyDown(keyUp)) {
 			pos.y -= speed * deltaTime;
 		}
-		if (IsKeyDown(KEY_DOWN)) {
+		if (IsKeyDown(keyDown)) {
 			pos.y += speed * deltaTime;
 		}
 	}
@@ -55,19 +57,23 @@ int main() {
 	InitWindow(windowWidth, windowHeight, "RayPong");
 	SetTargetFPS(60);
 
-	Paddle playerRight = Paddle();
-	playerRight.pos = Vector2{ (float)windowWidth - 50, windowHeight / 2.f };
-	playerRight.width = 25;
-	playerRight.height = 120;
-	playerRight.speed = 500;
-	playerRight.color = WHITE;
-
 	Paddle playerLeft = Paddle();
 	playerLeft.pos = Vector2{ (float)50, windowHeight / 2.f };
 	playerLeft.width = 25;
 	playerLeft.height = 120;
 	playerLeft.speed = 500;
 	playerLeft.color = WHITE;
+	playerLeft.keyUp = KEY_W;
+	playerLeft.keyDown = KEY_S;
+
+	Paddle playerRight = Paddle();
+	playerRight.pos = Vector2{ (float)windowWidth - 50, windowHeight / 2.f };
+	playerRight.width = 25;
+	playerRight.height = 120;
+	playerRight.speed = 500;
+	playerRight.color = WHITE;
+	playerRight.keyUp = KEY_UP;
+	playerRight.keyDown = KEY_DOWN;
 
 	Ball ball = Ball();
 	ball.pos = Vector2{ (float)windowWidth /2.f, windowHeight / 2.f };
