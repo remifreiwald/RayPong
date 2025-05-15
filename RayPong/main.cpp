@@ -11,7 +11,7 @@
 int windowWidth = 1280;
 int windowHeight = 720;
 
-class Player {
+class Paddle {
 public:
 	Vector2 pos;
 	float width;
@@ -30,13 +30,6 @@ public:
 
 	void Draw() {
 		DrawRectangle(pos.x - width / 2.f, pos.y - height / 2.f, width, height, color);
-	}
-};
-
-class CPU : public Player {
-public:
-	void Update(float deltaTime) {
-		// do nothing for now
 	}
 };
 
@@ -62,19 +55,19 @@ int main() {
 	InitWindow(windowWidth, windowHeight, "RayPong");
 	SetTargetFPS(60);
 
-	Player player = Player();
-	player.pos = Vector2{ (float)windowWidth - 50, windowHeight / 2.f };
-	player.width = 25;
-	player.height = 120;
-	player.speed = 500;
-	player.color = WHITE;
+	Paddle playerRight = Paddle();
+	playerRight.pos = Vector2{ (float)windowWidth - 50, windowHeight / 2.f };
+	playerRight.width = 25;
+	playerRight.height = 120;
+	playerRight.speed = 500;
+	playerRight.color = WHITE;
 
-	CPU cpu = CPU();
-	cpu.pos = Vector2{ (float)50, windowHeight / 2.f };
-	cpu.width = 25;
-	cpu.height = 120;
-	cpu.speed = 500;
-	cpu.color = WHITE;
+	Paddle playerLeft = Paddle();
+	playerLeft.pos = Vector2{ (float)50, windowHeight / 2.f };
+	playerLeft.width = 25;
+	playerLeft.height = 120;
+	playerLeft.speed = 500;
+	playerLeft.color = WHITE;
 
 	Ball ball = Ball();
 	ball.pos = Vector2{ (float)windowWidth /2.f, windowHeight / 2.f };
@@ -88,15 +81,15 @@ int main() {
 
 		float deltaTime = GetFrameTime();
 
-		player.Update(deltaTime);
-		cpu.Update(deltaTime);
+		playerRight.Update(deltaTime);
+		playerLeft.Update(deltaTime);
 		ball.Update(deltaTime);
 
 		ClearBackground(BLACK);
 		DrawLine(windowWidth / 2.f, 0, windowWidth / 2.f, windowHeight, WHITE);
 
-		player.Draw();
-		cpu.Draw();
+		playerRight.Draw();
+		playerLeft.Draw();
 		ball.Draw();
 
 		EndDrawing();
