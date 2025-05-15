@@ -16,7 +16,17 @@ public:
 	Vector2 pos;
 	float width;
 	float height;
+	float speed;
 	Color color;
+
+	void Update(float deltaTime) {
+		if (IsKeyDown(KEY_UP)) {
+			pos.y -= speed * deltaTime;
+		}
+		if (IsKeyDown(KEY_DOWN)) {
+			pos.y += speed * deltaTime;
+		}
+	}
 
 	void Draw() {
 		DrawRectangle(pos.x - width / 2.f, pos.y - height / 2.f, width, height, color);
@@ -24,7 +34,10 @@ public:
 };
 
 class CPU : public Player {
-
+public:
+	void Update(float deltaTime) {
+		// do nothing for now
+	}
 };
 
 class Ball {
@@ -53,12 +66,14 @@ int main() {
 	player.pos = Vector2{ (float)windowWidth - 50, windowHeight / 2.f };
 	player.width = 25;
 	player.height = 120;
+	player.speed = 500;
 	player.color = WHITE;
 
 	CPU cpu = CPU();
 	cpu.pos = Vector2{ (float)50, windowHeight / 2.f };
 	cpu.width = 25;
 	cpu.height = 120;
+	cpu.speed = 500;
 	cpu.color = WHITE;
 
 	Ball ball = Ball();
@@ -73,6 +88,8 @@ int main() {
 
 		float deltaTime = GetFrameTime();
 
+		player.Update(deltaTime);
+		cpu.Update(deltaTime);
 		ball.Update(deltaTime);
 
 		ClearBackground(BLACK);
