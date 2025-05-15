@@ -13,10 +13,10 @@ int windowHeight = 720;
 
 class Paddle {
 public:
-	Vector2 pos;
+	Vector2 pos; // center of the paddle
 	float width;
 	float height;
-	float speed;
+	float speed; // per second
 	Color color;
 	int keyUp;
 	int keyDown;
@@ -30,6 +30,16 @@ public:
 		}
 	}
 
+	void CheckCollisionWithWall() {
+		if (pos.y <= (height / 2.f)) {
+			// collision with top wall
+			pos.y = height / 2.f;
+		}
+		if (pos.y >= (windowHeight - height / 2.f)) {
+			pos.y = windowHeight - height / 2.f;
+		}
+	}
+
 	void Draw() {
 		DrawRectangle(pos.x - width / 2.f, pos.y - height / 2.f, width, height, color);
 	}
@@ -37,10 +47,10 @@ public:
 
 class Ball {
 public:
-	Vector2 pos;
+	Vector2 pos; // center of the ball
 	float radius;
-	float speedX;
-	float speedY;
+	float speedX; // per second
+	float speedY; // per second
 	Color color;
 
 	void Update(float deltaTime) {
@@ -87,15 +97,18 @@ int main() {
 
 		float deltaTime = GetFrameTime();
 
-		playerRight.Update(deltaTime);
 		playerLeft.Update(deltaTime);
+		playerRight.Update(deltaTime);
 		ball.Update(deltaTime);
+
+		playerLeft.CheckCollisionWithWall();
+		playerRight.CheckCollisionWithWall();
 
 		ClearBackground(BLACK);
 		DrawLine(windowWidth / 2.f, 0, windowWidth / 2.f, windowHeight, WHITE);
 
-		playerRight.Draw();
 		playerLeft.Draw();
+		playerRight.Draw();
 		ball.Draw();
 
 		EndDrawing();
