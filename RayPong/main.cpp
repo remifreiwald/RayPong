@@ -36,6 +36,7 @@ public:
 			pos.y = height / 2.f;
 		}
 		if (pos.y >= (windowHeight - height / 2.f)) {
+			// collision with bottom wall
 			pos.y = windowHeight - height / 2.f;
 		}
 	}
@@ -56,6 +57,23 @@ public:
 	void Update(float deltaTime) {
 		pos.x += speedX * deltaTime;
 		pos.y += speedY * deltaTime;
+	}
+
+	void CheckCollisionWithWall() {
+		if (pos.y - radius <= 0 || pos.y + radius >= windowHeight) {
+			// collision with top or bottom wall
+			speedY *= -1;
+		}
+	}
+
+	void CheckCollisionWithPaddle(Paddle paddle) {
+		// NOTE!
+		// Collision behaves weird when hitting the paddle from the top, bottom or behind
+		// The direction of the collision needs to be taken into account
+		Rectangle rect = Rectangle{ paddle.pos.x - paddle.width / 2.f, paddle.pos.y - paddle.height / 2.f, paddle.width, paddle.height };
+		if (CheckCollisionCircleRec(pos, radius, rect)) {
+			speedX *= -1;
+		}
 	}
 
 	void Draw() {
@@ -103,6 +121,9 @@ int main() {
 
 		playerLeft.CheckCollisionWithWall();
 		playerRight.CheckCollisionWithWall();
+		ball.CheckCollisionWithWall();
+		ball.CheckCollisionWithPaddle(playerLeft);
+		ball.CheckCollisionWithPaddle(playerRight);
 
 		ClearBackground(BLACK);
 		DrawLine(windowWidth / 2.f, 0, windowWidth / 2.f, windowHeight, WHITE);
