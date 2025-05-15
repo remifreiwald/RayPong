@@ -27,6 +27,17 @@ class CPU : public Player {
 
 };
 
+class Ball {
+public:
+	Vector2 pos;
+	float radius;
+	Color color;
+
+	void Draw() {
+		DrawCircle(pos.x, pos.y, radius, color);
+	}
+};
+
 int main() {
 	InitWindow(windowWidth, windowHeight, "RayPong");
 	SetTargetFPS(60);
@@ -43,6 +54,11 @@ int main() {
 	cpu.height = 120;
 	cpu.color = WHITE;
 
+	Ball ball = Ball();
+	ball.pos = Vector2{ (float)windowWidth /2.f, windowHeight / 2.f };
+	ball.radius = 10;
+	ball.color = WHITE;
+
 	while (!WindowShouldClose()) {
 		BeginDrawing();
 
@@ -51,6 +67,7 @@ int main() {
 
 		player.Draw();
 		cpu.Draw();
+		ball.Draw();
 
 		EndDrawing();
 	}
