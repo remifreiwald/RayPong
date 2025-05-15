@@ -31,7 +31,14 @@ class Ball {
 public:
 	Vector2 pos;
 	float radius;
+	float speedX;
+	float speedY;
 	Color color;
+
+	void Update(float deltaTime) {
+		pos.x += speedX * deltaTime;
+		pos.y += speedY * deltaTime;
+	}
 
 	void Draw() {
 		DrawCircle(pos.x, pos.y, radius, color);
@@ -57,10 +64,16 @@ int main() {
 	Ball ball = Ball();
 	ball.pos = Vector2{ (float)windowWidth /2.f, windowHeight / 2.f };
 	ball.radius = 10;
+	ball.speedX = 250;
+	ball.speedY = 250;
 	ball.color = WHITE;
 
 	while (!WindowShouldClose()) {
 		BeginDrawing();
+
+		float deltaTime = GetFrameTime();
+
+		ball.Update(deltaTime);
 
 		ClearBackground(BLACK);
 		DrawLine(windowWidth / 2.f, 0, windowWidth / 2.f, windowHeight, WHITE);
