@@ -54,6 +54,11 @@ public:
 	float speedY; // per second
 	Color color;
 
+	void Reset() {
+		pos = Vector2{ (float)windowWidth / 2.f, windowHeight / 2.f };
+		speedX *= -1;
+	}
+
 	void Update(float deltaTime) {
 		pos.x += speedX * deltaTime;
 		pos.y += speedY * deltaTime;
@@ -63,6 +68,14 @@ public:
 		if (pos.y - radius <= 0 || pos.y + radius >= windowHeight) {
 			// collision with top or bottom wall
 			speedY *= -1;
+		}
+		if (pos.x + radius >= windowWidth) {
+			// Player Left scores
+			Reset();
+		}
+		if (pos.x - radius <= 0) {
+			// Player Right scores
+			Reset();
 		}
 	}
 
