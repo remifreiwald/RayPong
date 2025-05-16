@@ -11,6 +11,9 @@
 int windowWidth = 1280;
 int windowHeight = 720;
 
+int playerLeftScore = 0;
+int playerRightScore = 0;
+
 class Paddle {
 public:
 	Vector2 pos; // center of the paddle
@@ -30,7 +33,7 @@ public:
 		}
 	}
 
-	void CheckCollisionWithWall() {
+	void CheckCollisionWithWalls() {
 		if (pos.y <= (height / 2.f)) {
 			// collision with top wall
 			pos.y = height / 2.f;
@@ -64,17 +67,19 @@ public:
 		pos.y += speedY * deltaTime;
 	}
 
-	void CheckCollisionWithWall() {
+	void CheckCollisionWithWalls() {
 		if (pos.y - radius <= 0 || pos.y + radius >= windowHeight) {
 			// collision with top or bottom wall
 			speedY *= -1;
 		}
 		if (pos.x + radius >= windowWidth) {
 			// Player Left scores
+			playerLeftScore++;
 			Reset();
 		}
 		if (pos.x - radius <= 0) {
 			// Player Right scores
+			playerRightScore++;
 			Reset();
 		}
 	}
@@ -132,14 +137,19 @@ int main() {
 		playerRight.Update(deltaTime);
 		ball.Update(deltaTime);
 
-		playerLeft.CheckCollisionWithWall();
-		playerRight.CheckCollisionWithWall();
-		ball.CheckCollisionWithWall();
+		playerLeft.CheckCollisionWithWalls();
+		playerRight.CheckCollisionWithWalls();
+		ball.CheckCollisionWithWalls();
 		ball.CheckCollisionWithPaddle(playerLeft);
 		ball.CheckCollisionWithPaddle(playerRight);
 
 		ClearBackground(BLACK);
 		DrawLine(windowWidth / 2.f, 0, windowWidth / 2.f, windowHeight, WHITE);
+		// NOTE
+		// Scores are not perfectly centered
+		// They should be moved a little bit to the left depending on their width
+		DrawText(TextFormat("%i", playerLeftScore), windowWidth * .25f, 50, 75, WHITE);
+		DrawText(TextFormat("%i", playerRightScore), windowWidth * .75f, 50, 75, WHITE);
 
 		playerLeft.Draw();
 		playerRight.Draw();
