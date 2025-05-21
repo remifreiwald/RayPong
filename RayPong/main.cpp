@@ -86,8 +86,8 @@ public:
 
 	void CheckCollisionWithPaddle(Paddle paddle) {
 		// NOTE!
-		// Collision behaves weird when hitting the paddle from the top, bottom or behind
-		// The direction of the collision needs to be taken into account
+		// Collision behaves weird when hitting the paddle from the top, bottom or behind.
+		// The direction of the collision needs to be taken into account.
 		Rectangle rect = Rectangle{ paddle.pos.x - paddle.width / 2.f, paddle.pos.y - paddle.height / 2.f, paddle.width, paddle.height };
 		if (CheckCollisionCircleRec(pos, radius, rect)) {
 			speedX *= -1;
@@ -145,11 +145,11 @@ int main() {
 
 		ClearBackground(BLACK);
 		DrawLine(windowWidth / 2.f, 0, windowWidth / 2.f, windowHeight, WHITE);
-		// NOTE
-		// Scores are not perfectly centered
-		// They should be moved a little bit to the left depending on their width
-		DrawText(TextFormat("%i", playerLeftScore), windowWidth * .25f, 50, 75, WHITE);
-		DrawText(TextFormat("%i", playerRightScore), windowWidth * .75f, 50, 75, WHITE);
+
+		int leftScoreWidth = MeasureText(TextFormat("%i", playerLeftScore), 80);
+		int rightScoreWidth = MeasureText(TextFormat("%i", playerRightScore), 80);
+		DrawText(TextFormat("%i", playerLeftScore), (windowWidth * .25f - leftScoreWidth * 0.5f), 50, 80, WHITE);
+		DrawText(TextFormat("%i", playerRightScore), (windowWidth * .75f - rightScoreWidth * 0.5f), 50, 80, WHITE);
 
 		playerLeft.Draw();
 		playerRight.Draw();
