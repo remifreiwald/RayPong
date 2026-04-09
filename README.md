@@ -1,6 +1,6 @@
 # RayPong
 A simple Pong clone made with Raylib (www.raylib.com) in Visual Studio
 
-Left player moves with W or S
+Left player moves with W and S
 
-Right player moves with arrow keys
+Right player moves with UP and DOWN on the arrow keys
